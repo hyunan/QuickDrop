@@ -1,13 +1,17 @@
 import { useState } from 'react'
-
-import Demo from './components/test/demo'
+import { VStack, Center } from '@chakra-ui/react'
+import MainModal from './components/ui/main-modal'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Demo></Demo>
+      <VStack minH="100vh" >
+        <Center w="full" flex="1">
+          <MainModal />
+        </Center>
+      </VStack>
     </>
   )
 }
