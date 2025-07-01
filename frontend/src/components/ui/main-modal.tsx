@@ -3,8 +3,8 @@ import TopBar from "./top-bar";
 
 const MainModal = () => {
     return (
-        <Box bg="white" h="400px" w="600px">
-            <VStack bg="blue">
+        <Box bg="white" h="500px" w="650px" borderRadius="12px" overflow="hidden">
+            <VStack bg="blue" h="full">
                 <TopBar />
                 <Text>Hello</Text>
                 <Text>World!</Text>
