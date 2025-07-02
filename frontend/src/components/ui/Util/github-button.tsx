@@ -3,11 +3,7 @@ import { LuGithub } from "react-icons/lu";
 
 const GithubButton = () => {
     return (
-        <a
-        href="https://github.com/hyunan/QuickDrop"
-        target="_blank"
-        rel="noopener noreferrer"
-        >
+        <>
             <IconButton
                 aria-label="Github Link"
                 variant="ghost"
@@ -19,9 +15,15 @@ const GithubButton = () => {
                     }
                 }}
             >
-                <LuGithub />
+                <a
+                href="https://github.com/hyunan/QuickDrop"
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                    <LuGithub />
+                </a>
             </IconButton>
-        </a>
+        </>
     )
 }
 
