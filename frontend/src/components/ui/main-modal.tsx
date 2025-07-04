@@ -12,8 +12,8 @@ const MainModal = () => {
     return (
         <Box
             bg="white"
-            h="500px"
-            w="650px"
+            h="550px"
+            w="700px"
             borderRadius="12px"
             overflow="hidden"
         >
