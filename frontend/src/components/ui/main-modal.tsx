@@ -5,8 +5,12 @@ import TopBar from "./top-bar";
 import UploadUI from "./upload-ui";
 import ReceiveUI from "./receive-ui";
 import ViewToggle from "./Util/view-toggle";
+import GenerateDeviceName from "./Util/generate-device-name"
 
-const MainModal = () => {
+const deviceName = GenerateDeviceName()
+
+const MainModal = () => {    
+    console.log(deviceName)
     const [mode, setMode] = useState<"upload" | "receive">("upload")
 
     return (
@@ -18,7 +22,7 @@ const MainModal = () => {
             overflow="hidden"
         >
             <VStack bg="blue" h="full">
-                <TopBar />
+                <TopBar deviceName={deviceName} />
                 <Flex w="100%" pr="2">
                     <Spacer />
                     <ViewToggle mode={mode} setMode={setMode} />
