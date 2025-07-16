@@ -4,7 +4,7 @@ import FileChoose from "./Upload/file-choose"
 import Profile from "./Util/profile"
 
 const UploadUI = () => {
-    const devices = Array.from({ length: 4 }, (_, i) => `Device ${i + 1}`)
+    const devices = Array.from({ length: 4 }, (_, i) => `Device ${i + 1}`);
 
     return (
         <>
@@ -19,7 +19,7 @@ const UploadUI = () => {
                 >
                 <SimpleGrid columns={[2, 6]}>
                     {devices.map((device, idx) => (
-                        <Profile name={device}></Profile>
+                        <Profile name={device} key={idx}></Profile>
                     ))}
                 </SimpleGrid>
             </Box>
