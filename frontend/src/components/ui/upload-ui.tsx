@@ -6,17 +6,14 @@ import Profile from "./Util/profile"
 type UploadUIProps = {
   deviceName: string;
   devices: string[];
-  socket: WebSocket | null;
 }
 
-const UploadUI = ({ deviceName, devices, socket }: UploadUIProps) => {
+const UploadUI = ({ deviceName, devices }: UploadUIProps) => {
     return (
         <>
             <Text>UPLOADING SCREEN</Text>
             <FileChoose onFileSelect={(file) => {
                 console.log(`Uploaded: ${file.name}. Total size: ${file.size} bytes.`);
-                // Example: send file info over socket if needed
-                // socket?.send(JSON.stringify({ type: "file", fileName: file.name, size: file.size }));
             }} />
             <Text>Send to:</Text>
             <Box
@@ -29,7 +26,7 @@ const UploadUI = ({ deviceName, devices, socket }: UploadUIProps) => {
                     {devices
                     .filter((device) => device != deviceName)
                     .map((device) => (
-                        <Profile key={device} name={device} socket={socket} />
+                        <Profile name={device} key={device} />
                     ))}
                 </SimpleGrid>
             </Box>
