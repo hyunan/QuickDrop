@@ -1,24 +1,20 @@
 from fastapi import FastAPI, UploadFile, File, BackgroundTasks
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 import random
 from pathlib import Path
 
-import presense
+from .api import presense
 
-UPLOAD_DIR = Path("uploads")
-
+UPLOAD_DIR = Path(__file__).parent / "uploads"
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World!"}
-
-@app.get("/random")
+@app.get("/api/random")
 def random_number():
     """Return random number."""
     return {"random_number": random.randint(1, 10)}
 
-@app.post("/upload")
+@app.post("/api/upload")
 async def upload_file(file: UploadFile = File(...)):
     """Upload file into upload folder with unique filename if needed."""
     filename = file.filename
@@ -36,7 +32,7 @@ async def upload_file(file: UploadFile = File(...)):
 
     return {"filename": file_path.name}
 
-@app.delete("/delete/{file_name}")
+@app.delete("/api/delete/{file_name}")
 def delete_file(file_name: str):
     """Delete file matching file name"""
     safe_path = UPLOAD_DIR / file_name
@@ -50,7 +46,7 @@ def delete(path: Path) -> None:
     if path.exists():
         path.unlink()
 
-@app.get("/download/{file_name}")
+@app.get("/api/download/{file_name}")
 def download_file(file_name: str, background_tasks: BackgroundTasks):
     file_path = UPLOAD_DIR / file_name
     background_tasks.add_task(delete, file_path)
@@ -62,10 +58,13 @@ def download_file(file_name: str, background_tasks: BackgroundTasks):
         background=background_tasks
     )
 
-@app.get("/files")
+@app.get("/api/files")
 def list_files():
     """Returns the list of files currently on the server"""
-    files = list(UPLOAD_DIR.iterdir())
+    files = list(x.name for x in UPLOAD_DIR.iterdir())
     return {"files": files}
 
-app.include_router(presense)
+app.include_router(presense.router)
+
+frontend_path = Path(__file__).parent.parent / "frontend" / "dist"
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")

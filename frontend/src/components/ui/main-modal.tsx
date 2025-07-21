@@ -1,8 +1,8 @@
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useMemo, useState } from "react";
 import { Box, Flex, Spacer, VStack } from "@chakra-ui/react";
 
 import TopBar from "./top-bar";
-import UploadUI from "./upload-ui";
+// import UploadUI from "./upload-ui";
 import ReceiveUI from "./receive-ui";
 import ViewToggle from "./Util/view-toggle";
 import { GenerateDeviceName } from "./Util/generate-device-name"
@@ -10,7 +10,6 @@ import { GenerateDeviceName } from "./Util/generate-device-name"
 const MainModal = () => {    
     const [mode, setMode] = useState<"upload" | "receive">("upload")
     const deviceName = useMemo(() => GenerateDeviceName(), [])
-    const [devices, setDevices] = useState<string[]>([]);
 
     return (
         <Box
@@ -27,7 +26,7 @@ const MainModal = () => {
                     <ViewToggle mode={mode} setMode={setMode} />
                 </Flex>
                 {mode === "upload" 
-                    ? <UploadUI deviceName={deviceName} devices={devices} /> 
+                    ? <ReceiveUI /> 
                     : <ReceiveUI />}
             </VStack>
         </Box>
