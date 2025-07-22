@@ -4,7 +4,7 @@ from pathlib import Path
 
 from app.utils.get_ip import get_local_ip
 
-DEV = True # True to enable reload (dev mode)
+DEV = False # True to enable reload (dev mode)
 PORT = 8000
 ip = get_local_ip()
 
