@@ -1,4 +1,9 @@
-from fastapi import APIRouter, Request
+###
+### POST and GET implementation of pinging.
+### Changed implementation to WebSockets for better performance in ws.py
+###
+
+from fastapi import APIRouter
 from datetime import datetime, timedelta, timezone
 from typing import Dict
 
