@@ -25,20 +25,21 @@ const Profile = ({ name, Icon = BsPerson, file, socket }: ProfileProps) => {
     return (
         <>
             <Box onClick={handleClick}>
-                <VStack spaceY={-2} p="2">
+                <VStack spaceY={-1} p="2">
                     <Box
                         boxSize="64px"
-                        bg="gray.100"
+                        bg="gray.200"
                         borderRadius="full"
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
-                        color="gray.600"
+                        color="gray.700"
                         fontSize="24px"
+                        shadow="sm"
                     >
                         <Icon />
                     </Box>
-                    <Text fontSize="sm">
+                    <Text fontSize="sm" color="black">
                         {name}
                     </Text>
                 </VStack>

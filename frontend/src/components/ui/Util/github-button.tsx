@@ -6,8 +6,10 @@ const GithubButton = () => {
         <>
             <IconButton
                 aria-label="Github Link"
-                variant="ghost"
                 size="sm"
+                color="black"
+                bg="gray.100"
+                _hover={{ bg: "gray.200" }}
                 css={{
                     _icon: {
                         w: 5,

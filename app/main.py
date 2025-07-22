@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import random
 from pathlib import Path
+import mimetypes
 
 from .api import ws
 from .utils.get_ip import get_local_ip
@@ -69,6 +70,18 @@ def download_file(file_name: str, background_tasks: BackgroundTasks):
         filename=file_path.name,
         media_type="application/octet-stream",
         background=background_tasks
+    )
+
+@app.get("/api/viewfile/{file_name}")
+def view_file(file_name: str, background_tasks: BackgroundTasks):
+    """Views the specific file"""
+    file_path = UPLOAD_DIR / file_name
+    
+    media_type, _ = mimetypes.guess_type(str(file_path))
+    return FileResponse(
+        path=file_path,
+        filename=file_path.name,
+        media_type=media_type
     )
 
 @app.get("/api/files")
