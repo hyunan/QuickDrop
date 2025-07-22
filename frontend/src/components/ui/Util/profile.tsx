@@ -5,11 +5,22 @@ import { BsPerson } from "react-icons/bs";
 type ProfileProps = {
     name: string;
     Icon?: IconType;
+    file: string;
+    socket: WebSocket | null;
 }
 
-const Profile = ({ name, Icon = BsPerson }: ProfileProps) => {
+const Profile = ({ name, Icon = BsPerson, file, socket }: ProfileProps) => {
     const handleClick = () => {
-        console.log(`Clicked on ${name}`);
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            console.log(`[LOG] Telling ${name} to download ${file}`);
+            socket.send(JSON.stringify({
+                type: "send_download",
+                target: name,
+                file_url: file
+            }));
+        } else {
+            console.warn(`[WARNING] Socket is not open/connected.`)
+        }
     };
     return (
         <>

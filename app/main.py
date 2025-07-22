@@ -5,17 +5,19 @@ from fastapi.middleware.cors import CORSMiddleware
 import random
 from pathlib import Path
 
-from . import presense
+from .api import ws
+from .utils.get_ip import get_local_ip
 
-DEV = True
 UPLOAD_DIR = Path(__file__).parent / "uploads"
 app = FastAPI()
 
-if DEV:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"]
-    )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/api/random")
 def random_number():
@@ -25,7 +27,8 @@ def random_number():
 @app.post("/api/upload")
 async def upload_file(file: UploadFile = File(...)):
     """Upload file into upload folder with unique filename if needed."""
-    filename = file.filename
+    filename = file.filename.split()
+    filename = "_".join(filename)
     file_path = UPLOAD_DIR / filename
     name = file_path.stem
     ext = file_path.suffix
@@ -37,8 +40,9 @@ async def upload_file(file: UploadFile = File(...)):
 
     with open(file_path, "wb") as f:
         f.write(await file.read())
-
-    return {"filename": file_path.name}
+    
+    print(f"[UPLOAD] Uploaded {file_path.name}")
+    return {"filename": f"{file_path.name}"}
 
 @app.delete("/api/delete/{file_name}")
 def delete_file(file_name: str):
@@ -56,6 +60,7 @@ def delete(path: Path) -> None:
 
 @app.get("/api/download/{file_name}")
 def download_file(file_name: str, background_tasks: BackgroundTasks):
+    """Downloads the specific file"""
     file_path = UPLOAD_DIR / file_name
     background_tasks.add_task(delete, file_path)
     
@@ -72,7 +77,13 @@ def list_files():
     files = list(x.name for x in UPLOAD_DIR.iterdir())
     return {"files": files}
 
-app.include_router(presense.router)
+@app.get("/api/get_local_ip")
+async def get_ip():
+    """Returns the local ip of host machine"""
+    print(get_local_ip())
+    return {"ip": get_local_ip()}
+
+app.include_router(ws.router)
 
 frontend_path = Path(__file__).parent.parent / "frontend" / "dist"
 app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")

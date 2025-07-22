@@ -2,12 +2,28 @@ import { Box, Text, Flex, VStack } from "@chakra-ui/react";
 import {useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
 import { LuUpload } from "react-icons/lu";
+import axios from "axios";
+
 
 const UploadUI = ({ onFileUploaded } : { onFileUploaded : (filename: string) => void}) => {
-    const onDrop = useCallback((acceptedFiles: File[]) => {
+    const onDrop = useCallback(async (acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
-        console.log(`Uploaded: ${file.name}. Total size: ${file.size} bytes.`);
-        onFileUploaded(file.name)
+        const formData = new FormData();
+        formData.append("file", file);
+        const backendIp = import.meta.env.VITE_BACKEND_HOST;
+
+        try {
+            const response = await axios.post(`http://${backendIp}/api/upload`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+            });
+
+            console.log(response.data);
+            onFileUploaded(response.data.filename)
+        } catch (err) {
+            console.error(err)
+        }
     }, [onFileUploaded])
     
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
