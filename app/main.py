@@ -1,13 +1,21 @@
 from fastapi import FastAPI, UploadFile, File, BackgroundTasks
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 import random
 from pathlib import Path
 
-from .api import presense
+from . import presense
 
+DEV = True
 UPLOAD_DIR = Path(__file__).parent / "uploads"
 app = FastAPI()
+
+if DEV:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"]
+    )
 
 @app.get("/api/random")
 def random_number():
