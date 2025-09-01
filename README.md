@@ -2,9 +2,9 @@
 
 A quick and lightweight peer-to-peer file sharing app over your local network.
 
-![Screenshot Placeholder](./assets/ui_screenshot.png)
+![Screenshot Placeholder](./assets/ui_screenshot.jpg)
 
-![Modal Placeholder](./assets/download_modal.png)
+![Modal Placeholder](./assets/download_modal.jpg)
 
 
 ## Features
